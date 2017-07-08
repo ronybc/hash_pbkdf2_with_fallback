@@ -3,11 +3,14 @@
 /*
  * PBKDF2 - PHP implementation
  *
+ * git: https://github.com/ronybc/hash_pbkdf2_with_fallback
+ * 
  * Based on:
  * http://www.php.net/manual/en/function.hash-hmac.php#101540
  * https://gist.github.com/inanimatt/1162409
  * 
  * Written by: Rony B Chandran (http://www.ronybc.com)
+ * 
  * 
  * Example:
  * 
@@ -29,10 +32,10 @@ function hash_pbkdf2_with_fallback($algorithm, $password, $salt, $rounds, $key_l
 		return hash_pbkdf2($algorithm, $password, $salt, $rounds, $key_length, $raw_output);
 	}
 
-	// $raw_output = 0 ; output 'key_length' number of characters (hex)
-	// $raw_output = 1 ; output 'key_length' number of bytes
+	// $raw_output = false ; output 'key_length' number of characters (hex)
+	// $raw_output = true  ; output 'key_length' number of bytes
 
-	if($raw_output == 0)
+	if($raw_output == false)
 	{
 		$bytes = $key_length / 2;
 	}
@@ -43,8 +46,8 @@ function hash_pbkdf2_with_fallback($algorithm, $password, $salt, $rounds, $key_l
 	
 	$dk = '';
 	$block = 1;
-
-	while(strlen($dk) < $bytes)
+	
+	do
 	{ 
 		$ib = $h = hash_hmac($algorithm, $salt . pack('N', $block), $password, true);
 
@@ -55,14 +58,22 @@ function hash_pbkdf2_with_fallback($algorithm, $password, $salt, $rounds, $key_l
 
 		$dk .= $ib;
 		$block++;
-	}
+		
+	}	while(strlen($dk) < $bytes);
 
 	if($raw_output == 0)
 	{
 		$dk = bin2hex($dk);
 	}
 	
-	return(substr($dk, 0, $key_length));
+	// if 0 is passed, the entire output of the supplied algorithm is used.
+	
+	if($key_length != 0)
+	{
+		$dk = substr($dk, 0, $key_length);
+	}
+	
+	return($dk);
 }
 
 ?>
