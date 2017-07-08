@@ -1,5 +1,6 @@
 # hash_pbkdf2_with_fallback()
-PBKDF2 PHP code; Plan B when PHP version &lt; 5.5, having no builtin hash_pbkdf2(). 
+PBKDF2 PHP code; Plan B when PHP version &lt; 5.5, having no builtin hash_pbkdf2().
+
 (On a web host running older PHP version.)
 
 # Test:
