@@ -28,7 +28,7 @@ function hash_pbkdf2_with_fallback($algorithm, $password, $salt, $rounds, $key_l
 {
 	if(function_exists('hash_pbkdf2'))
 	{
-		// Have builtin hash_pbkdf2() (PHP >= 5.5.0)
+		// Have builtin hash_pbkdf2() (PHP >= 5.5.0, PHP 7)
 		return hash_pbkdf2($algorithm, $password, $salt, $rounds, $key_length, $raw_output);
 	}
 
