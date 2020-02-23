@@ -12,11 +12,11 @@
  * Written by: Rony B Chandran (http://www.ronybc.com)
  * 
  * 
- * Example:
- * 
+ * Example.php:
+ * ------------------------- 
  * include 'pbkdf2.php';
  * 
- * $password = "fish ash shaving_lotion"; // genuine 
+ * $password = "betternexttime";  
  * $salt = base64_encode( openssl_random_pseudo_bytes(32) );
  * 
  * echo hash_pbkdf2_with_fallback('sha256', $password, $salt, 10000, 64, false);
